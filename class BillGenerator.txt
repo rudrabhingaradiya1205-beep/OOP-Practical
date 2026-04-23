@@ -1,0 +1,73 @@
+
+import java.util.*;
+
+class BillGenerator {
+    
+    void generateBill(int itemTotal) {
+        System.out.println("FINAL BILL :- ₹" + itemTotal);
+    }
+
+    void generateBill(int itemTotal, int discount) {
+        int finalAmount = itemTotal - discount;
+        if(itemTotal >= discount){
+            System.out.println("FINAL BILL AFTER DISCOUNT :- ₹" + finalAmount);
+        }
+        else {
+            System.out.println("ERROR IN DISCOUNT");
+        }
+    }
+    
+    void generateBill(int itemTotal, double discountPercent) {
+        double finalAmount = itemTotal - (itemTotal * discountPercent / 100);
+        if(discountPercent > 100){
+            System.out.println("ERROR IN DISCOUNT");
+        }
+        else {
+            System.out.println("FINAL BILL AMONUT WITH " + discountPercent + "% DISCOUNT :- ₹" + finalAmount);
+        }
+    }
+}
+
+public class P6 {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        BillGenerator bill = new BillGenerator();
+
+        System.out.print("ENTER TOTAL AMOUNT :- ₹");
+        int total = sc.nextInt();
+
+        System.out.println("\nSELECT CUSTOMER TYPE");
+        System.out.println("1. REGULAR CUSTOMER");
+        System.out.println("2. PRIVILIGED CUSTOMER (DISCOUNT)");
+        System.out.println("3. FESTIVE OFFER OFFER (PERCENTAGE DISCOUNT)");
+        System.out.print("ENTER YOUR CHOICE (1,2,3) :- ");
+        int choice = sc.nextInt();
+        if(choice==1 || choice==2 || choice==3) {
+            switch (choice) {
+                case 1:
+                    bill.generateBill(total);
+                    break;
+                case 2:
+                    System.out.print("ENTER DISCOUNT :- ₹");
+                    int discount = sc.nextInt();
+                    bill.generateBill(total, discount);
+                    break;
+    
+                case 3:
+                    System.out.print("ENTER DISCOUNT PERCENTAGE :- ");
+                    double percent = sc.nextDouble(); 
+                    bill.generateBill(total, percent);
+                    break;
+    
+                default:
+                    System.out.println("ERROR !!! INVALID CHOICE !!!");
+            }
+        }
+        else{
+            System.out.println("ERROR !!! ENTER CORRECT CHOICE AMONG (1,2,3)");
+        }        
+        
+    }
+}
+

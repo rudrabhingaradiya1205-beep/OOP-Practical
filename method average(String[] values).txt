@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class AverageCalculator {
+
+    public double average(String[] values) throws NullPointerException, NumberFormatException {
+        double sum = 0;
+        for (String s : values) {
+            if (s == null) {
+                throw new NullPointerException("Array element is null");
+            }
+            sum += Double.parseDouble(s);
+        }
+        return sum / values.length;
+    }
+
+
+
+    public static void main(String[] args) {
+        AverageCalculator calc = new AverageCalculator();
+
+        String[][] testCases = {
+            {"10.5", "20.0", "30.5"}, // Valid
+            {"10", "abc", "30"},      // Invalid: NumberFormatException
+            {"10", null, "30"}        // Invalid: NullPointerException
+        };
+
+        for (String[] test : testCases) {
+            try {
+                System.out.println("Testing with: " + java.util.Arrays.toString(test));
+                double result = calc.average(test);
+                System.out.println("Average: " + result);
+            } catch (NumberFormatException e) {
+                System.out.println("Error: One of the elements is not a valid number.");
+            } catch (NullPointerException e) {
+                System.out.println("Error: One of the elements is null.");
+            } finally {
+                System.out.println("Calculation attempt finished.\n");
+            }
+        }
+    }
+}
