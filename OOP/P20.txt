@@ -1,0 +1,88 @@
+import java.util.*;
+
+public class Main {
+
+    static final int PANE_WIDTH = 60;  // console "window" width
+    static final char BALL = 'O';
+    static double ballX = 5;
+    static double velocityX = 1;
+    static boolean running = false;
+    static double speed = 1;
+
+    public static void main(String[] args) throws InterruptedException {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("====================================");
+        System.out.println("   BOUNCING BALL - Console Demo     ");
+        System.out.println("====================================");
+        System.out.println("Commands during setup:");
+        System.out.println("  start  -> Start the ball");
+        System.out.println("  speed  -> Set speed (1=slow, 5=fast)");
+        System.out.println("  stop   -> Stop after N bounces");
+        System.out.println("====================================\n");
+
+        System.out.print("Enter speed (1-5): ");
+        speed = clamp(sc.nextDouble(), 1, 5);
+
+        System.out.print("How many bounces before auto-stop? ");
+        int maxBounces = sc.nextInt();
+
+        System.out.print("\nType 'start' to begin: ");
+        String cmd = sc.next();
+
+        if (!cmd.equalsIgnoreCase("start")) {
+            System.out.println("Exiting.");
+            return;
+        }
+
+        running = true;
+        System.out.println("\n>> Ball Started! (speed=" + speed + ")\n");
+        Thread.sleep(500);
+
+        int bounceCount = 0;
+
+        while (running && bounceCount < maxBounces) {
+
+            // ── Draw frame ──────────────────────────────
+            printFrame((int) ballX);
+
+            // ── Move ball ───────────────────────────────
+            ballX += velocityX * speed;
+
+            // ── Boundary check ──────────────────────────
+            if (ballX <= 0) {
+                ballX = 0;
+                velocityX = +Math.abs(velocityX);
+                bounceCount++;
+                System.out.println("  << Bounced LEFT  [" + bounceCount + "/" + maxBounces + "]");
+            } else if (ballX >= PANE_WIDTH) {
+                ballX = PANE_WIDTH;
+                velocityX = -Math.abs(velocityX);
+                bounceCount++;
+                System.out.println("  >> Bounced RIGHT [" + bounceCount + "/" + maxBounces + "]");
+            }
+
+            // ── Frame delay (controls visual speed) ─────
+            long delay = (long) (120 / speed);
+            Thread.sleep(delay);
+        }
+
+        System.out.println("\n>> Ball Stopped after " + bounceCount + " bounces.");
+        System.out.println("====================================");
+    }
+
+    // Draws one frame: wall + spaces + ball + spaces + wall
+    static void printFrame(int pos) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('|');                          // left wall
+        for (int i = 0; i <= PANE_WIDTH; i++) {
+            sb.append(i == pos ? BALL : ' ');
+        }
+        sb.append('|');                          // right wall
+        System.out.println(sb.toString());
+    }
+
+    static double clamp(double val, double min, double max) {
+        return Math.max(min, Math.min(max, val));
+    }
+}

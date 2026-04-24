@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+    public static <T extends Comparable<T>> void sortList(List<T> list) {
+        Collections.sort(list);
+    }
+    public static <T> void displayList(String label, List<T> list) {
+        System.out.println(label + ": " + list);
+    }
+    public static void main(String[] args) {
+
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(42);
+        numbers.add(7);
+        numbers.add(19);
+        numbers.add(3);
+        numbers.add(55);
+
+        System.out.println("=== Integer List ===");
+        displayList("Before", numbers);
+        sortList(numbers);
+        displayList("After ", numbers);
+
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Sneha");
+        names.add("Rohit");
+        names.add("Vishnu");
+        names.add("Raj");
+        names.add("Aman");
+
+        System.out.println("\n=== String List ===");
+        displayList("Before", names);
+        sortList(names);
+        displayList("After ", names);
+    }
+}
